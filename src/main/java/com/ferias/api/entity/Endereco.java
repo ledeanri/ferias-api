@@ -7,10 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
-import com.sun.istack.NotNull;
 
 @Entity
 @Table(name = "endereco")
@@ -33,16 +30,6 @@ public class Endereco implements Serializable {
 	@Column(name = "estudo", nullable = false)
 	private String estado;
 	
-	@OneToOne(mappedBy = "endereco")
-	@NotNull
-	private Funcionario funcionario;
-	
-	public Funcionario getFuncionario() {
-		return funcionario;
-	}
-	public void setFuncionario(Funcionario funcionario) {
-		this.funcionario = funcionario;
-	}
 	public Integer getId() {
 		return id;
 	}

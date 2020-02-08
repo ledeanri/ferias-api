@@ -3,6 +3,7 @@ package com.ferias.api.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -35,13 +36,13 @@ public class Funcionario implements Serializable {
 	@Column(name = "dataContratacao", nullable = false)
 	private Date dataContratacao;
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "matricula", nullable = false)
+	@Column(name = "matricula")
 	private Integer matricula;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Equipe equipe;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@NotNull
 	private Endereco endereco;
 
