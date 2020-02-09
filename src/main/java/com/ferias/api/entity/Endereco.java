@@ -3,20 +3,16 @@ package com.ferias.api.entity;
 import java.io.Serializable;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.Embeddable;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
-@Entity
-@Table(name = "endereco")
+@Embeddable
 public class Endereco implements Serializable {
 
 	private static final long serialVersionUID = -4207085550422547247L;
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer id;
+	
 	@Column(name = "rua", nullable = false)
 	private String rua;
 	@Column(name = "numero", nullable = false)
@@ -30,12 +26,6 @@ public class Endereco implements Serializable {
 	@Column(name = "estudo", nullable = false)
 	private String estado;
 	
-	public Integer getId() {
-		return id;
-	}
-	public void setId(Integer id) {
-		this.id = id;
-	}
 	public String getRua() {
 		return rua;
 	}
