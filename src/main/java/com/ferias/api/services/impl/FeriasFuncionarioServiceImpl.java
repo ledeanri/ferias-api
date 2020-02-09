@@ -7,11 +7,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
 
 import com.ferias.api.entity.FeriasFuncionario;
 import com.ferias.api.repository.FeriasFuncionarioRepository;
 import com.ferias.api.services.FeriasFuncionarioService;
 
+@Service
 public class FeriasFuncionarioServiceImpl implements FeriasFuncionarioService {
 	
 	private static final Logger log = LoggerFactory.getLogger(FeriasFuncionarioServiceImpl.class);
