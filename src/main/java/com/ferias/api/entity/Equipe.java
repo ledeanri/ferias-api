@@ -21,7 +21,7 @@ public class Equipe implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer id;
+	private Long id;
 	@Column(name = "nome", nullable = false)
 	private String nome;
 	@OneToMany(mappedBy = "equipe", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -38,11 +38,11 @@ public class Equipe implements Serializable {
 		this.funcionarios = funcionarios;
 	}
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

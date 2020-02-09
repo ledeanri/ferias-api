@@ -23,7 +23,7 @@ public class Funcionario implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer matricula;
+	private Long matricula;
 	@Column(name = "nome", nullable = false)
 	private String nome;
 	@Temporal(TemporalType.TIMESTAMP)
@@ -39,11 +39,11 @@ public class Funcionario implements Serializable {
 	@Embedded
 	private Endereco endereco;
 
-	public Integer getMatricula() {
+	public Long getMatricula() {
 		return matricula;
 	}
 
-	public void setMatricula(Integer matricula) {
+	public void setMatricula(Long matricula) {
 		this.matricula = matricula;
 	}
 

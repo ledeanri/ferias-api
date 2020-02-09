@@ -35,7 +35,7 @@ public class FuncionarioServiceImpl implements FuncionarioService {
 	}
 
 	@Override
-	public Optional<Funcionario> buscarPorMatricula(Integer matricula) {
+	public Optional<Funcionario> buscarPorMatricula(Long matricula) {
 		log.info("Buscando funcionario pela matricula {}", matricula);
 
 		return Optional.ofNullable(this.funcionarioRepository.findByMatricula(matricula));

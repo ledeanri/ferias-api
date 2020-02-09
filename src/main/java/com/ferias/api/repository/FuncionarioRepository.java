@@ -6,7 +6,7 @@ import com.ferias.api.entity.Funcionario;
 
 public interface FuncionarioRepository extends JpaRepository<Funcionario, Long> {
 	
-	Funcionario findByMatricula(Integer matricula);
+	Funcionario findByMatricula(Long matricula);
 	
 	Funcionario findByNome(String Nome);
 }

@@ -1,6 +1,7 @@
 package com.ferias.api.services;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Optional;
 
@@ -15,7 +16,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.ferias.api.entity.Equipe;
 import com.ferias.api.entity.Funcionario;
 import com.ferias.api.repository.FuncionarioRepository;
 
@@ -34,7 +34,7 @@ public class FuncionarioServiceTest {
 	public void setup() throws Exception {
 		BDDMockito.given(this.funcionarioRepository.save(Mockito.any(Funcionario.class))).willReturn(new Funcionario());
 		BDDMockito.given(this.funcionarioRepository.findByNome(Mockito.anyString())).willReturn(new Funcionario());
-		BDDMockito.given(this.funcionarioRepository.findByMatricula(Mockito.anyInt())).willReturn(new Funcionario());
+		BDDMockito.given(this.funcionarioRepository.findByMatricula(Mockito.anyLong())).willReturn(new Funcionario());
 	}
 	
 	@Test
@@ -48,13 +48,13 @@ public class FuncionarioServiceTest {
 	public void testBuscarFuncionarioPorNome() {
 		Optional<Funcionario> funcionario = this.funcionarioService.buscarPorNome("Funcionario teste");
 		
-		assertNotNull(funcionario);
+		assertTrue(funcionario.isPresent());
 	}
 	
 	@Test
 	public void testBuscarFuncionarioPorMatricula() {
-		Optional<Funcionario> funcionario = this.funcionarioService.buscarPorMatricula(1);
+		Optional<Funcionario> funcionario = this.funcionarioService.buscarPorMatricula(1L);
 		
-		assertNotNull(funcionario);
+		assertTrue(funcionario.isPresent());
 	}
 }
