@@ -31,4 +31,10 @@ public class EquipeServiceImpl implements EquipeService {
 		return this.equipeRepository.save(equipe);
 	}
 
+	@Override
+	public Optional<Equipe> findById(Long id) {
+		log.info("Buscando equipe para id {}", id);
+		return this.equipeRepository.findById(id);
+	}
+
 }

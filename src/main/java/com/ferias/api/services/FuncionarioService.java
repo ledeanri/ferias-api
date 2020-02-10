@@ -10,4 +10,5 @@ public interface FuncionarioService {
 	Optional<Funcionario> buscarPorNome(String nome);
 	
 	Optional<Funcionario> buscarPorMatricula(Long matricula);
+	
 }

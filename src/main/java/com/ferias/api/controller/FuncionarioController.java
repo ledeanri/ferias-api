@@ -13,14 +13,17 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ferias.api.dto.FuncionarioDto;
+import com.ferias.api.entity.Equipe;
 import com.ferias.api.entity.Funcionario;
 import com.ferias.api.response.Response;
+import com.ferias.api.services.EquipeService;
 import com.ferias.api.services.FuncionarioService;
 
 @RestController
@@ -31,8 +34,61 @@ public class FuncionarioController {
 
 	@Autowired
 	private FuncionarioService funcionarioService;
+	
+	@Autowired
+	private EquipeService equipeService;
 
 	public FuncionarioController() {
+	}
+	
+	@PostMapping
+	public ResponseEntity<Response<FuncionarioDto>> cadastrar(@Valid @RequestBody FuncionarioDto funcionarioDto,
+			BindingResult result) throws NoSuchAlgorithmException {
+		log.info("Cadastrando funcionário: {}", funcionarioDto.toString());
+		Response<FuncionarioDto> response = new Response<FuncionarioDto>();
+
+		validarDadosExistentes(funcionarioDto, result);
+		Funcionario funcionario = this.converterDtoParaFuncionario(funcionarioDto, result);
+
+		if (result.hasErrors()) {
+			log.error("Erro validando dados de funcionário: {}", result.getAllErrors());
+			result.getAllErrors().forEach(error -> response.getErrors().add(error.getDefaultMessage()));
+			return ResponseEntity.badRequest().body(response);
+		}
+		
+		Optional<Equipe> equipe = this.equipeService.findById(funcionarioDto.getEquipeId());
+		equipe.ifPresent(eqp -> funcionario.setEquipe(eqp));
+		this.funcionarioService.persistirFuncionario(funcionario);
+
+		response.setData(this.converterFuncionarioDto(funcionario));
+		return ResponseEntity.ok(response);
+	}
+
+	private void validarDadosExistentes(FuncionarioDto funcionarioDto, BindingResult result) {
+		Optional<Equipe> equipe = this.equipeService.findById(funcionarioDto.getEquipeId());
+		
+		if (!equipe.isPresent()) {
+			result.addError(new ObjectError("equipe", "Equipe não cadastrada."));
+		}
+		
+		this.funcionarioService.buscarPorNome(funcionarioDto.getNome())
+			.ifPresent(func -> result.addError(new ObjectError("funcionario", "Nome já existente.")));
+
+	}
+
+	private Funcionario converterDtoParaFuncionario(FuncionarioDto funcionarioDto, BindingResult result)
+			throws NoSuchAlgorithmException {
+		Funcionario funcionario = new Funcionario();
+		
+		funcionario.setNome(funcionarioDto.getNome());
+		funcionario.setDataNascimento(funcionarioDto.getDataNascimento());
+		funcionario.setDataContratacao(funcionarioDto.getDataContratacao());
+		
+		funcionario.setEndereco(funcionarioDto.getEndereco());
+		Optional<Equipe> equipe = this.equipeService.findById(funcionarioDto.getEquipeId());
+		equipe.ifPresent(eqp -> funcionario.setEquipe(eqp));
+
+		return funcionario;
 	}
 	
 	@PutMapping(value = "/{id}")
@@ -81,6 +137,10 @@ public class FuncionarioController {
 		funcionarioDto.setNome(funcionario.getNome());
 		funcionarioDto.setDataNascimento(funcionario.getDataNascimento());
 		funcionarioDto.setDataContratacao(funcionario.getDataContratacao());
+		
+		funcionarioDto.setEquipeId(funcionario.getEquipe().getId());
+		
+		funcionarioDto.setEndereco(funcionario.getEndereco());
 
 		return funcionarioDto;
 	}

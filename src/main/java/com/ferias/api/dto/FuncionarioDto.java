@@ -5,6 +5,8 @@ import java.util.Date;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.ferias.api.entity.Endereco;
+
 public class FuncionarioDto {
 	private Long matricula;
 	@NotEmpty(message = "Nome não pode ser vazio.")
@@ -15,7 +17,27 @@ public class FuncionarioDto {
 	@NotEmpty(message = "Data de contratação não pode ser vazia.")
 	private Date dataContratacao;
 	
-		public Long getMatricula() {
+	private Long equipeId;
+	
+	private Endereco endereco;
+
+	public Long getEquipeId() {
+		return equipeId;
+	}
+
+	public Endereco getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
+	}
+
+	public void setEquipeId(Long equipeId) {
+		this.equipeId = equipeId;
+	}
+
+	public Long getMatricula() {
 		return matricula;
 	}
 
@@ -23,7 +45,7 @@ public class FuncionarioDto {
 		this.matricula = matricula;
 	}
 
-		public String getNome() {
+	public String getNome() {
 		return nome;
 	}
 
